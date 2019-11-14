@@ -15,26 +15,54 @@ app.controller("AppController", function ($scope) {
         $scope.guesses = 6;
         $scope.displayWord = "";
 
-        selectWord = selectWord()
+        selectedWord = selectedWord()
 
         let tempDisplayWord = "";
-        for (let i = 0; i < selectWord.length; i++) {
+        for (let i = 0; i < selectedWord.length; i++) {
             tempDisplayWord += "*"
         }
         $scope.displayWord = tempDisplayWord
 
 
-        console.log(selectWord)
+        console.log(selectedWord)
     }
 
 
-    let selectWord = function () {
-        let index = Math.round(Math.random() * words.length)
+    let selectedWord = function () {
+        let index = Math.round(Math.random() * words.length);
         return words[index];
     }
 
-    $scope.letterChose = function(){
-        
+    $scope.letterChosen = function () {
+        for (let i = 0; i < $scope.rightGuess.length; i++) {
+            if ($scope.rightGuess[i].toLowerCase() == $scope.input.letter.toLowerCase()); {
+                $scope.input.letter = "";
+                return;
+            }
+
+        }
+
+        for (let i = 0; i < $scope.wrongGuess.length; i++) {
+            if ($scope.wrongGuess[i].toLowerCase() == $scope.input.letter.toLowerCase()); {
+                $scope.input.letter = "";
+                return;
+            }
+
+        }
+
+        let correct = false;
+        for (let i = 0; i < selectedWord.length; i++) {
+            if (selectedWord[i].toLowerCase() == $scope.input.letter.toLowerCase()) {
+                $scope.displayWord = $scope.displayWord.slice(0, i) + $scope.input.letter.toLowerCase() + $scope.displayWord.slice(i + 1)
+                correct = true;
+            }
+        }
+        if (correct) {
+            $scope.rightGuess.push($scope.input.letter.toLowerCase());
+        } else {
+            $scope.wrongGuess.push($scope.input.letter.toLowerCase());
+        }
+        $scope.input.letter = ""
     }
 
     newGame()
