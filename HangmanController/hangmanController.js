@@ -9,7 +9,7 @@ app.controller("AppController", function ($scope) {
         letter: ""
     }
 
-    let newGame = function(){
+    let newGame = function () {
         $scope.wrongGuess = []
         $scope.rightGuess = [];
         $scope.guesses = 6;
@@ -22,15 +22,19 @@ app.controller("AppController", function ($scope) {
             tempDisplayWord += "*"
         }
         $scope.displayWord = tempDisplayWord
-        
 
-        console.log(selectWord )
+
+        console.log(selectWord)
     }
 
 
-    let selectWord = function(){
+    let selectWord = function () {
         let index = Math.round(Math.random() * words.length)
         return words[index];
+    }
+
+    $scope.letterChose = function(){
+        
     }
 
     newGame()

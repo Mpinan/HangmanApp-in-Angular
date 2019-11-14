@@ -10,8 +10,24 @@
 <div>
     <div>Guess The Word: {{ displayWord }}</div>
     <div>
+        Guesses left: {{ guesses }}
+    </div>
+    <div>
+        Wrong guesses: 
+        <span ng-repeat="letter in wrongGuess">
+            {{ letter }}
+        </span>
+    </div>
+    <div>
+        Correct guesses:
+         <span ng-repeat="letter in rightGuess">
+            {{ letter }}
+        </span>
+    </div>
+    <div>
         <div>
             <input type="text" name= "guess" ng-model= "input.letter">
+            <button ng-click="letterChosen()">GUESS!</button>
         </div>
     </div>
 </div>
