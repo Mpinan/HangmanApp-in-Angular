@@ -17,6 +17,13 @@ app.controller("AppController", function ($scope) {
 
         selectWord = selectWord()
 
+        let tempDisplayWord = "";
+        for (let i = 0; i < selectWord.length; i++) {
+            tempDisplayWord += "*"
+        }
+        $scope.displayWord = tempDisplayWord
+        
+
         console.log(selectWord )
     }
 
@@ -26,5 +33,5 @@ app.controller("AppController", function ($scope) {
         return words[index];
     }
 
-newGame()
+    newGame()
 })
