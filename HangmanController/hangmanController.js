@@ -1,7 +1,5 @@
 app.controller("AppController", function ($scope, $timeout, $http) {
 
-    // const words = ["rat", "cat", "bat"];
-
     $scope.incorrectLettersChosen = [];
     $scope.correctLettersChosen = [];
     let selectedWord = ""
@@ -24,7 +22,7 @@ app.controller("AppController", function ($scope, $timeout, $http) {
     });
 
 
-    var newGame = function () {
+    let newGame = function () {
         $scope.incorrectLettersChosen = [];
         $scope.correctLettersChosen = [];
         $scope.guesses = 6;
@@ -35,11 +33,6 @@ app.controller("AppController", function ($scope, $timeout, $http) {
         }
         $scope.displayWord = tempDisplayWord;
         // Random word selection.
-    }
-
-    $scope.hint = function () {
-        $scope.guesses - 1
-        return $scope.randomWord.hint
     }
 
     $scope.letterChosen = function () {
@@ -92,6 +85,13 @@ app.controller("AppController", function ($scope, $timeout, $http) {
             }, 500);
         }
     }
-
     newGame()
+
+    $scope.showHint = false;
+    $scope.hint = function () {
+        $scope.showHint = !$scope.showHint
+        $scope.guesses--;
+        $scope.hint = $scope.randomWord.hint
+    }
+    
 })

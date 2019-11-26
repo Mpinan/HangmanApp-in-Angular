@@ -27,11 +27,10 @@
             </span>
         </div>
 
-        <!-- <div ng-model="selectedHint" ng-options="x for (x, y) in randomWord">
-            <h1>You selected: {{ selectedHint.hint }}</h1>
-        </div> -->
-        <button ng-click="hint()">Hint!</button>
-        <h1>{{ randomWord.hint }}</h1>
+        <button ng-click="hint()">HINT!</button>
+        <div ng-show="showHint">
+            <h1>{{ hint }}</h1>
+        </div>
 
         <div>
             <div>
