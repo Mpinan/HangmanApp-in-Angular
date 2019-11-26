@@ -1,35 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
     <script src="HangmanModule/hangmanModule.js"></script>
     <script src="HangmanController/hangmanController.js"></script>
     <title>Hangman app</title>
 </head>
-<body ng-app= "HangmanApp" ng-controller="AppController">
-<div>
-    <div>Guess The Word: {{ displayWord }}</div>
+
+<body ng-app="HangmanApp" ng-controller="AppController">
     <div>
-        Guesses left: {{ guesses }}
-    </div>
-    <div>
-        Wrong guesses: 
-        <span ng-repeat="letter in wrongGuess">
-            {{ letter }}
-        </span>
-    </div>
-    <div>
-        Correct guesses:
-         <span ng-repeat="letter in rightGuess">
-            {{ letter }}
-        </span>
-    </div>
-    <div>
+        <div>Guess The Word: {{ displayWord }}</div>
         <div>
-            <input type="text" name= "guess" ng-model= "input.letter">
-            <button ng-click="letterChosen()">GUESS!</button>
+            Guesses left: {{ guesses }}
+        </div>
+        <div>
+            Wrong guesses:
+            <span ng-repeat="letter in incorrectLettersChosen">
+                {{ letter }}
+            </span>
+        </div>
+        <div>
+            Correct guesses:
+            <span ng-repeat="letter in correctLettersChosen">
+                {{ letter }}
+            </span>
+        </div>
+
+        <!-- <div ng-model="selectedHint" ng-options="x for (x, y) in randomWord">
+            <h1>You selected: {{ selectedHint.hint }}</h1>
+        </div> -->
+        <button ng-click="hint()">Hint!</button>
+        <h1>{{ randomWord.hint }}</h1>
+
+        <div>
+            <div>
+                <input type="text" name="guess" ng-model="input.letter">
+                <button ng-click="letterChosen()">GUESS!</button>
+            </div>
         </div>
     </div>
-</div>
 </body>
+
 </html>

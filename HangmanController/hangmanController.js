@@ -1,52 +1,61 @@
-app.controller("AppController", function ($scope) {
-    const words = ["rat", "cat", "bat"];
-    $scope.wrongGuess = [];
-    $scope.rightGuess = [];
-    $scope.guesses = 6;
-    $scope.displayWord = "";
+app.controller("AppController", function ($scope, $timeout, $http) {
 
+    // const words = ["rat", "cat", "bat"];
+
+    $scope.incorrectLettersChosen = [];
+    $scope.correctLettersChosen = [];
+    let selectedWord = ""
+    $scope.displayWord = "";
+    $scope.guesses = 6;
     $scope.input = {
         letter: ""
     }
 
-    let newGame = function () {
-        $scope.wrongGuess = []
-        $scope.rightGuess = [];
+    $http({
+        method: 'GET',
+        url: '../words.md',
+
+    }).then(function success(response) {
+        let index = response.data.wordObject.length
+        $scope.randomWord = response.data.wordObject[Math.round(Math.random() * index)]
+        selectedWord = $scope.randomWord.word
+
+
+    });
+
+
+    var newGame = function () {
+        $scope.incorrectLettersChosen = [];
+        $scope.correctLettersChosen = [];
         $scope.guesses = 6;
         $scope.displayWord = "";
-
-        selectedWord = selectedWord()
-
-        let tempDisplayWord = "";
-        for (let i = 0; i < selectedWord.length; i++) {
-            tempDisplayWord += "*"
+        var tempDisplayWord = '';
+        for (var i = 0; i < selectedWord.length; i++) {
+            tempDisplayWord += '*';
         }
-        $scope.displayWord = tempDisplayWord
-
-
-        console.log(selectedWord)
+        $scope.displayWord = tempDisplayWord;
+        // Random word selection.
     }
 
-
-    let selectedWord = function () {
-        let index = Math.floor(Math.random() * words.length);
-        return words[index];
+    $scope.hint = function () {
+        $scope.guesses - 1
+        return $scope.randomWord.hint
     }
 
     $scope.letterChosen = function () {
-        console.log("I am here again")
-        for (let i = 0; i < $scope.rightGuess.length; i++) {
-            
-            if ($scope.rightGuess[i].toLowerCase() == $scope.input.letter.toLowerCase()); {
+
+        for (let i = 0; i < $scope.correctLettersChosen.length; i++) {
+
+            if ($scope.correctLettersChosen[i].toUpperCase() == $scope.input.letter.toUpperCase()) {
                 $scope.input.letter = "";
                 return;
             }
 
         }
 
-        for (let i = 0; i < $scope.wrongGuess.length; i++) {
-            
-            if ($scope.wrongGuess[i].toLowerCase() == $scope.input.letter.toLowerCase()); {
+        for (let i = 0; i < $scope.incorrectLettersChosen.length; i++) {
+
+            if ($scope.incorrectLettersChosen[i].toUpperCase() == $scope.input.letter.toUpperCase()) {
                 $scope.input.letter = "";
                 return;
             }
@@ -56,24 +65,31 @@ app.controller("AppController", function ($scope) {
         let correct = false;
         for (let i = 0; i < selectedWord.length; i++) {
             if (selectedWord[i].toLowerCase() == $scope.input.letter.toLowerCase()) {
-                $scope.displayWord = $scope.displayWord.slice(0, 1) + $scope.input.letter.toLowerCase() + $scope.displayWord.slice(i + 1)
+                $scope.displayWord = $scope.displayWord.slice(0, i) + $scope.input.letter.toUpperCase() + $scope.displayWord.slice(i + 1);
                 correct = true;
             }
         }
 
         if (correct) {
             console.log("I am correct")
-            $scope.rightGuess.push($scope.input.letter.toLowerCase());
+            $scope.correctLettersChosen.push($scope.input.letter.toUpperCase());
         } else {
+            $scope.guesses--;
             console.log("I am incorrect")
-            $scope.wrongGuess.push($scope.input.letter.toLowerCase());
+            $scope.incorrectLettersChosen.push($scope.input.letter.toUpperCase());
         }
+
         $scope.input.letter = ""
-        if($scope.guesses == 0){
-            alert("You Lost!")
+        if ($scope.guesses == 0) {
+            $timeout(function () {
+                newGame();
+            }, 500);
         }
-        if($scope.displayWord.indexOf('*') == - 1){
-            alert("You Won!")
+
+        if ($scope.displayWord.indexOf('*') == - 1) {
+            $timeout(function () {
+                newGame();
+            }, 500);
         }
     }
 
