@@ -1,42 +1,50 @@
 app.controller("AppController", function ($scope, $timeout, $http) {
-
+    
     $scope.incorrectLettersChosen = [];
     $scope.correctLettersChosen = [];
     let selectedWord = ""
+    $scope.randomWord = ""
     $scope.displayWord = "";
     $scope.guesses = 6;
-    $scope.input = {
-        letter: ""
-    }
 
     $http({
         method: 'GET',
         url: '../words.md',
 
     }).then(function success(response) {
+        newGame()
         let index = response.data.wordObject.length
         $scope.randomWord = response.data.wordObject[Math.round(Math.random() * index)]
         selectedWord = $scope.randomWord.word
-
-
+        console.log(selectedWord)
+        console.log($scope.randomWord)
+        
     });
 
+    $scope.input = {
+        letter: ""
+    }
 
+    
     let newGame = function () {
         $scope.incorrectLettersChosen = [];
         $scope.correctLettersChosen = [];
         $scope.guesses = 6;
+        console.log($scope.randomWord)
+        console.log(selectedWord)
         $scope.displayWord = "";
         var tempDisplayWord = '';
         for (var i = 0; i < selectedWord.length; i++) {
             tempDisplayWord += '*';
         }
         $scope.displayWord = tempDisplayWord;
+        
         // Random word selection.
     }
 
+    console.log(selectedWord)
     $scope.letterChosen = function () {
-
+        console.log(selectedWord)
         for (let i = 0; i < $scope.correctLettersChosen.length; i++) {
 
             if ($scope.correctLettersChosen[i].toUpperCase() == $scope.input.letter.toUpperCase()) {
@@ -84,14 +92,14 @@ app.controller("AppController", function ($scope, $timeout, $http) {
                 newGame();
             }, 500);
         }
-    }
-    newGame()
-
-    $scope.showHint = false;
-    $scope.hint = function () {
-        $scope.showHint = !$scope.showHint
-        $scope.guesses--;
-        $scope.hint = $scope.randomWord.hint
+        $scope.showHint = false;
+        $scope.hint = function () {
+            $scope.showHint = !$scope.showHint
+            $scope.guesses--;
+            $scope.hint = $scope.randomWord.hint
+        }
     }
     
+    
+    // newGame()
 })
