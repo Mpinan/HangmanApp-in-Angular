@@ -14,12 +14,8 @@ app.controller("AppController", function ($scope, $timeout, $http) {
         // Random word selection.
     }
     
-    $scope.incorrectLettersChosen = [];
-    $scope.correctLettersChosen = [];
     let selectedWord = ""
     $scope.randomWord = ""
-    $scope.displayWord = "";
-    $scope.guesses = 6;
 
     $http({
         method: 'GET',
@@ -96,6 +92,4 @@ app.controller("AppController", function ($scope, $timeout, $http) {
 
     }
     
-    
-    newGame()
 })
